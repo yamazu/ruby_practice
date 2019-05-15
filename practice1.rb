@@ -15,7 +15,7 @@ CSV.open('output.csv', 'w') do |file|
   file << header
 
   csv_data.each do |data|
-    birthday = Date.new(data['誕生日']).strftime('yyyymmdd')
+    birthday = Date.parse(data['誕生日']).strftime('%Y%m%d')
     reference_date = '20200724'
     age = calc_age(birthday, reference_date)
 
