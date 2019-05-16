@@ -3,23 +3,21 @@ require 'csv'
 csv_data = CSV.read('dummy.csv', headers: true)
 
 csv_data.each do |data|
-  dir_path = "#{File.expand_path('~')}/Documents/export"
-  if data['キャリア'] == 'ドコモ'
-    unless Dir.exists?(dir_path)
-      Dir.mkdir(dir_path)
-    end
+  dir_path = File.expand_path('~/Documents/export')
 
-    File.open("#{dir_path}/#{data['名前'].delete(' ')}.txt", 'w') do |file|
-      file.puts(<<~TEXT)
-        TO: #{data['アドレス']}
-        SUBJECT: #{data['名前']}様にキャンペーンのご案内です
+  next unless data['キャリア'] == 'ドコモ'
+  Dir.mkdir(dir_path) unless Dir.exists?(dir_path)
 
-        こんにちは。#{data['名前']}様
+  File.open(File.join(dir_path, "#{data['名前'].delete(' ')}.txt"), 'w') do |file|
+    file.puts(<<~TEXT)
+      TO: #{data['アドレス']}
+      SUBJECT: #{data['名前']}様にキャンペーンのご案内です
 
-        お得なキャンペーンのお知らせがあります。ぜひ次のURLにアクセスしてみて下さい。
+      こんにちは。#{data['名前']}様
 
-        http://example.com?email=#{data['アドレス']}
-      TEXT
-    end
+      お得なキャンペーンのお知らせがあります。ぜひ次のURLにアクセスしてみて下さい。
+
+      http://example.com?email=#{data['アドレス']}
+    TEXT
   end
 end
