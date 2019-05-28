@@ -7,18 +7,14 @@ module SumMatrix
     end
 
     def generate_matrix(col:, row:, number_range:)
-      matrix = []
-      # 行列をランダムで生成
-      row.times { matrix.push(number_range.to_a.sample(col)) }
-      matrix
+      Array.new(row) { number_range.to_a.sample(col) }
     end
 
     def sum_matrix(matrix)
       # 各行の合計
       matrix.each { |row| row.push(row.sum) }
       # 各列の合計
-      transposed_matrix = matrix.transpose
-      transposed_matrix.each { |row| row.push(row.sum) }.transpose
+      matrix.transpose.each { |row| row.push(row.sum) }.transpose
     end
 
     def format_matrix(matrix)
